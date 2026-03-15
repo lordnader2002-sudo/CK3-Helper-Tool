@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CK3 AGOT Helper Tool</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="header-icon">&#9876;</div>
+      <div>
+        <h1>CK3 AGOT Helper Tool</h1>
+        <p class="header-sub">Crusader Kings 3 &mdash; A Game of Thrones Mod Advisor</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== NAV TABS ===== -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="houses">&#127963; Houses</button>
+    <button class="tab-btn" data-tab="character">&#9876; Character</button>
+    <button class="tab-btn" data-tab="war">&#9876; War Planner</button>
+    <button class="tab-btn" data-tab="succession">&#128081; Succession</button>
+    <button class="tab-btn" data-tab="intrigue">&#128065; Intrigue</button>
+    <button class="tab-btn" data-tab="buildings">&#127963; Buildings</button>
+    <button class="tab-btn" data-tab="traits">&#9733; Traits</button>
+    <button class="tab-btn" data-tab="tips">&#128161; Pro Tips</button>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- ============================================================
+         TAB: HOUSES
+    ============================================================ -->
+    <section id="tab-houses" class="tab-panel active">
+      <div class="panel-header">
+        <h2>Great Houses of Westeros</h2>
+        <p>Select a house to see strategic advice, strengths, weaknesses, and tips.</p>
+      </div>
+
+      <div class="house-grid" id="house-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="house-detail" id="house-detail" style="display:none;">
+        <button class="back-btn" id="house-back">&#8592; Back to Houses</button>
+        <div id="house-detail-content"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: CHARACTER BUILDER
+    ============================================================ -->
+    <section id="tab-character" class="tab-panel">
+      <div class="panel-header">
+        <h2>Character Optimizer</h2>
+        <p>Plan your ruler's stats and get personalized lifestyle & focus recommendations.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Ruler Stats</h3>
+          <div class="stat-grid">
+            <label>Diplomacy</label>
+            <input type="number" id="stat-diplomacy" min="1" max="100" value="10" />
+            <label>Martial</label>
+            <input type="number" id="stat-martial" min="1" max="100" value="10" />
+            <label>Stewardship</label>
+            <input type="number" id="stat-stewardship" min="1" max="100" value="10" />
+            <label>Intrigue</label>
+            <input type="number" id="stat-intrigue" min="1" max="100" value="10" />
+            <label>Learning</label>
+            <input type="number" id="stat-learning" min="1" max="100" value="10" />
+          </div>
+          <div class="stat-grid mt-10">
+            <label>Prowess</label>
+            <input type="number" id="stat-prowess" min="1" max="100" value="10" />
+            <label>Prestige Level</label>
+            <select id="stat-prestige">
+              <option value="1">1 - Landed</option>
+              <option value="2">2 - Count</option>
+              <option value="3">3 - Duke</option>
+              <option value="4" selected>4 - King</option>
+              <option value="5">5 - Emperor</option>
+            </select>
+            <label>Age</label>
+            <input type="number" id="stat-age" min="16" max="80" value="30" />
+          </div>
+
+          <h3 class="mt-20">Playstyle</h3>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="play-conqueror" /> Military Conqueror</label>
+            <label><input type="checkbox" id="play-diplomat" /> Diplomat / Alliance Builder</label>
+            <label><input type="checkbox" id="play-schemer" /> Schemer / Intriguer</label>
+            <label><input type="checkbox" id="play-economy" /> Economy / Builder</label>
+            <label><input type="checkbox" id="play-faith" /> Religious Leader</label>
+          </div>
+
+          <button class="btn-primary mt-20" id="calc-character">Analyze Character</button>
+        </div>
+
+        <div class="card" id="character-result">
+          <h3>Analysis & Recommendations</h3>
+          <div id="character-output">
+            <p class="hint-text">Fill in your character stats and click "Analyze Character" to get recommendations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: WAR PLANNER
+    ============================================================ -->
+    <section id="tab-war" class="tab-panel">
+      <div class="panel-header">
+        <h2>War Planner</h2>
+        <p>Plan your military campaigns, check army composition, and assess war risk.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Army Composition Calculator</h3>
+          <div class="stat-grid">
+            <label>Your Levies</label>
+            <input type="number" id="war-levies" min="0" value="5000" />
+            <label>Your Men-at-Arms</label>
+            <input type="number" id="war-maa" min="0" value="500" />
+            <label>Enemy Levies</label>
+            <input type="number" id="war-enemy-levies" min="0" value="4000" />
+            <label>Enemy Men-at-Arms</label>
+            <input type="number" id="war-enemy-maa" min="0" value="400" />
+          </div>
+
+          <h3 class="mt-20">Terrain Type</h3>
+          <select id="war-terrain">
+            <option value="plains">Plains (+Cavalry advantage)</option>
+            <option value="hills">Hills (+Spearmen, -Cavalry)</option>
+            <option value="forest">Forest (+Light infantry, -Cavalry)</option>
+            <option value="desert">Desert (-Supply, +Defender)</option>
+            <option value="mountains">Mountains (+Defender, -Attacker)</option>
+            <option value="river">River Crossing (-Attacker significantly)</option>
+          </select>
+
+          <h3 class="mt-20">Commander Quality</h3>
+          <select id="war-commander">
+            <option value="poor">Poor (Martial 5-)</option>
+            <option value="average" selected>Average (Martial 8-12)</option>
+            <option value="good">Good (Martial 13-18)</option>
+            <option value="exceptional">Exceptional (Martial 19+)</option>
+          </select>
+
+          <h3 class="mt-20">Special Factors</h3>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="war-dragon" /> Dragon in battle</label>
+            <label><input type="checkbox" id="war-crusade" /> Holy War / Crusade bonuses</label>
+            <label><input type="checkbox" id="war-winter" /> Deep Winter active</label>
+            <label><input type="checkbox" id="war-mercenary" /> Mercenaries hired</label>
+          </div>
+
+          <button class="btn-primary mt-20" id="calc-war">Assess Battle</button>
+        </div>
+
+        <div class="card">
+          <h3>Battle Assessment</h3>
+          <div id="war-output">
+            <p class="hint-text">Enter your army details to get a battle assessment.</p>
+          </div>
+
+          <h3 class="mt-20">Men-at-Arms Counter Guide</h3>
+          <div id="maa-counters">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: SUCCESSION
+    ============================================================ -->
+    <section id="tab-succession" class="tab-panel">
+      <div class="panel-header">
+        <h2>Succession Planner</h2>
+        <p>Understand succession laws and plan your dynasty's future.</p>
+      </div>
+
+      <div class="succession-grid" id="succession-cards">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="card mt-20">
+        <h3>Succession Law Comparison</h3>
+        <table class="data-table" id="succession-table">
+          <thead>
+            <tr>
+              <th>Law</th>
+              <th>Realm Integrity</th>
+              <th>Predictability</th>
+              <th>Risk Level</th>
+              <th>Recommended?</th>
+            </tr>
+          </thead>
+          <tbody id="succession-table-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card mt-20">
+        <h3>Succession Tips</h3>
+        <div class="tip-list">
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>Always groom your heir. Give them a quality education and lifestyle focus early.</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>Use <strong>Guardian</strong> events to improve heir stats — assign them to your best councillor.</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>Have <strong>3+ children</strong> as backup in case your primary heir dies.</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>In AGOT, track which children have Valyrian features or Warg potential — these are dynasty assets.</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>Use <strong>Claims</strong> on neighboring titles for your children — they'll inherit claims they can press.</span>
+          </div>
+          <div class="tip-item">
+            <span class="tip-icon">&#9733;</span>
+            <span>Before switching succession laws, ensure your vassals' opinion is above <strong>+30</strong>.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: INTRIGUE
+    ============================================================ -->
+    <section id="tab-intrigue" class="tab-panel">
+      <div class="panel-header">
+        <h2>Intrigue & Schemes</h2>
+        <p>Master the shadows. Learn when and how to scheme effectively.</p>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Scheme Success Calculator</h3>
+          <div class="stat-grid">
+            <label>Your Intrigue</label>
+            <input type="number" id="scheme-intrigue" min="1" max="100" value="15" />
+            <label>Target's Intrigue</label>
+            <input type="number" id="scheme-target-intrigue" min="1" max="100" value="10" />
+            <label>Number of Agents</label>
+            <input type="number" id="scheme-agents" min="0" max="10" value="2" />
+            <label>Spymaster Intrigue</label>
+            <input type="number" id="scheme-spymaster" min="1" max="100" value="12" />
+          </div>
+
+          <h3 class="mt-20">Scheme Type</h3>
+          <select id="scheme-type">
+            <option value="murder">Murder Scheme</option>
+            <option value="kidnap">Kidnapping</option>
+            <option value="claim">Claim Throne</option>
+            <option value="seduce">Seduction</option>
+          </select>
+
+          <div class="checkbox-group mt-10">
+            <label><input type="checkbox" id="scheme-hook" /> Have a hook on target</label>
+            <label><input type="checkbox" id="scheme-agent-access" /> Agent has direct access to target</label>
+            <label><input type="checkbox" id="scheme-ill" /> Target is stressed or ill</label>
+          </div>
+
+          <button class="btn-primary mt-20" id="calc-scheme">Calculate Scheme Power</button>
+        </div>
+
+        <div class="card">
+          <h3>Scheme Assessment</h3>
+          <div id="scheme-output">
+            <p class="hint-text">Enter details to assess your scheme's chances.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-20">
+        <h3>Scheme Reference Guide</h3>
+        <div id="scheme-guide">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: BUILDINGS
+    ============================================================ -->
+    <section id="tab-buildings" class="tab-panel">
+      <div class="panel-header">
+        <h2>Building Optimizer</h2>
+        <p>Know what to build, where, and why. Maximize your realm's potential.</p>
+      </div>
+
+      <div class="card">
+        <h3>Building Priority Finder</h3>
+        <div class="filter-row">
+          <label>Holding Type:</label>
+          <select id="building-filter-type">
+            <option value="all">All Types</option>
+            <option value="Castle">Castle</option>
+            <option value="City">City</option>
+            <option value="Coastal">Coastal</option>
+            <option value="Special">Special / AGOT</option>
+          </select>
+          <label style="margin-left:20px;">Priority:</label>
+          <select id="building-filter-priority">
+            <option value="all">All</option>
+            <option value="5">Essential (5)</option>
+            <option value="4">High (4)</option>
+            <option value="3">Medium (3)</option>
+          </select>
+          <button class="btn-secondary" id="filter-buildings" style="margin-left:20px;">Filter</button>
+        </div>
+      </div>
+
+      <div class="building-grid mt-20" id="building-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="card mt-20">
+        <h3>Region-Specific Building Advice</h3>
+        <div class="region-grid" id="region-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: TRAITS
+    ============================================================ -->
+    <section id="tab-traits" class="tab-panel">
+      <div class="panel-header">
+        <h2>Traits Reference</h2>
+        <p>Personality traits, lifestyle perks, and AGOT-unique abilities.</p>
+      </div>
+
+      <div class="trait-tabs">
+        <button class="trait-tab-btn active" data-trait-tab="personality">Personality</button>
+        <button class="trait-tab-btn" data-trait-tab="lifestyle">Lifestyle Perks</button>
+        <button class="trait-tab-btn" data-trait-tab="agot">AGOT Unique</button>
+      </div>
+
+      <div id="trait-content">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: PRO TIPS
+    ============================================================ -->
+    <section id="tab-tips" class="tab-panel">
+      <div class="panel-header">
+        <h2>Pro Tips & Strategy Guide</h2>
+        <p>Advanced strategies to dominate Westeros.</p>
+      </div>
+
+      <div class="tips-grid">
+
+        <div class="card tip-card">
+          <h3>&#9876; Early Game Priorities</h3>
+          <ul>
+            <li>Immediately appoint your best characters to council positions</li>
+            <li>Max out your domain first — direct holdings generate far more income</li>
+            <li>Secure <strong>one strong alliance</strong> through marriage in your first year</li>
+            <li>Educate your heir personally or assign to best guardian</li>
+            <li>Start building economically productive buildings immediately</li>
+            <li>Investigate your council members for hooks early</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128081; Vassal Management</h3>
+          <ul>
+            <li>Never let a single vassal control more than <strong>25% of your realm strength</strong></li>
+            <li>Give duchies to your own dynasty members where possible</li>
+            <li>Use <strong>Hooks</strong> to force vassals to support your decisions</li>
+            <li>The "Revoke Title" option is your nuclear button — use sparingly</li>
+            <li>Imprison and ransom ungrateful vassals to drain their gold</li>
+            <li>Keep vassal opinion above 0 — negative opinion spawns factions</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128184; Economy Mastery</h3>
+          <ul>
+            <li>Cities generate more tax than castles — build them in fertile regions</li>
+            <li>Stewardship above <strong>20</strong> gives massive tax bonuses</li>
+            <li>Never go into debt — the interest kills your economy</li>
+            <li>Raid weaker neighbors early for startup gold</li>
+            <li>Westerlands gold mines are game-changing — capture them if possible</li>
+            <li>Invest in trade posts along the eastern coast for Essos trade income</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#9876; Military Mastery</h3>
+          <ul>
+            <li>Quality beats quantity — <strong>Men-at-Arms</strong> are worth 5-10x levies</li>
+            <li>Never fight in enemy terrain without terrain-appropriate units</li>
+            <li>High Martial commanders dramatically improve battle outcomes</li>
+            <li>Siege with your main force, keep a flanking force to intercept relief</li>
+            <li>Supply attrition destroys armies — always check supply limits</li>
+            <li>In winter, short campaigns only — attrition is brutal</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128065; Intrigue Essentials</h3>
+          <ul>
+            <li>Your Spymaster is your most important council member</li>
+            <li>Collect hooks obsessively — they're diplomatic currency</li>
+            <li>Always have a murder scheme ready against your top rival</li>
+            <li>Use <strong>Fabricate Hooks</strong> on powerful rulers before acting</li>
+            <li>Stress management is real — avoid mental break events</li>
+            <li>Keep your court physician skilled for health management</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128293; AGOT Specific</h3>
+          <ul>
+            <li><strong>Dragon hatching is everything</strong> as Targaryen — prioritize events</li>
+            <li>Dragonglass is the only counter to White Walkers — stockpile it</li>
+            <li>Valyrian Steel swords are legendary artifacts — acquire them</li>
+            <li>Warg characters have unique map scouting abilities — exploit this</li>
+            <li>The Long Night event is existential — prepare 5+ years early</li>
+            <li>R'hllor faith gives resurrection mechanics — choose wisely</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128101; Diplomacy & Alliances</h3>
+          <ul>
+            <li>Marry your heir to the daughter/son of your most dangerous neighbor</li>
+            <li>Alliance through marriage is the strongest guarantee of peace</li>
+            <li>Never declare war on two major powers simultaneously</li>
+            <li>Use "Invite to Court" to poach talented characters from enemies</li>
+            <li>Fabricated claims let you declare wars without Casus Belli shortages</li>
+            <li>Matrilineal marriages extend alliances without losing heirs</li>
+          </ul>
+        </div>
+
+        <div class="card tip-card">
+          <h3>&#128081; Dynasty Power</h3>
+          <ul>
+            <li>Dynasty Legacy perks are long-term game changers — pick one and commit</li>
+            <li>Spread your dynasty members across Westeros as minor rulers</li>
+            <li>Dynasty Prestige opens unique interaction options</li>
+            <li>The Legitimacy mechanic in AGOT rewards established rule</li>
+            <li>Bastards can be legitimized — Targaryens especially should track this</li>
+            <li>Dynasty Renown bonuses stack — keeping a strong dynasty is self-reinforcing</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="main-footer">
+    <p>CK3 AGOT Helper Tool &mdash; Crusader Kings 3 | A Game of Thrones Mod &mdash; For the Iron Throne</p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/calculators.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
