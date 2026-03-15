@@ -21,14 +21,31 @@
 
   <!-- ===== NAV TABS ===== -->
   <nav class="tab-nav">
-    <button class="tab-btn active" data-tab="houses">&#127963; Houses</button>
-    <button class="tab-btn" data-tab="character">&#9876; Character</button>
-    <button class="tab-btn" data-tab="war">&#9876; War Planner</button>
-    <button class="tab-btn" data-tab="succession">&#128081; Succession</button>
-    <button class="tab-btn" data-tab="intrigue">&#128065; Intrigue</button>
-    <button class="tab-btn" data-tab="buildings">&#127963; Buildings</button>
-    <button class="tab-btn" data-tab="traits">&#9733; Traits</button>
-    <button class="tab-btn" data-tab="tips">&#128161; Pro Tips</button>
+    <div class="tab-group-label">Core</div>
+    <button class="tab-btn active" data-tab="houses">🏰 Houses</button>
+    <button class="tab-btn" data-tab="character">⚔️ Character</button>
+    <button class="tab-btn" data-tab="war">🗡️ War</button>
+    <button class="tab-btn" data-tab="succession">👑 Succession</button>
+    <button class="tab-btn" data-tab="intrigue">👁️ Intrigue</button>
+    <button class="tab-btn" data-tab="buildings">🏗️ Buildings</button>
+    <button class="tab-btn" data-tab="traits">⭐ Traits</button>
+    <button class="tab-btn" data-tab="tips">💡 Tips</button>
+    <div class="tab-group-label">Planners</div>
+    <button class="tab-btn" data-tab="council">📜 Council</button>
+    <button class="tab-btn" data-tab="marriage">💍 Marriage</button>
+    <button class="tab-btn" data-tab="budget">💰 Budget</button>
+    <button class="tab-btn" data-tab="stress">🧠 Stress</button>
+    <div class="tab-group-label">AGOT</div>
+    <button class="tab-btn" data-tab="longnight">❄️ Long Night</button>
+    <button class="tab-btn" data-tab="valyrian">🗡️ Valyrian Steel</button>
+    <button class="tab-btn" data-tab="dragons">🐉 Dragons</button>
+    <div class="tab-group-label">Reference</div>
+    <button class="tab-btn" data-tab="map">🗺️ Map</button>
+    <button class="tab-btn" data-tab="events">📖 Events</button>
+    <button class="tab-btn" data-tab="culture">⚜️ Culture</button>
+    <div class="tab-group-label">Tools</div>
+    <button class="tab-btn" data-tab="compare">⚖️ Compare</button>
+    <button class="tab-btn" data-tab="notes">📝 Notes</button>
   </nav>
 
   <!-- ===== MAIN CONTENT ===== -->
@@ -470,6 +487,330 @@
       </div>
     </section>
 
+
+    <!-- ============================================================
+         TAB: COUNCIL OPTIMIZER
+    ============================================================ -->
+    <section id="tab-council" class="tab-panel">
+      <div class="panel-header">
+        <h2>Council Optimizer</h2>
+        <p>Enter your courtiers' stats to find the best council assignments.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>Your Courtiers</h3>
+          <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:14px;">Enter the relevant stat for each courtier you're considering. Leave 0 if no candidate.</p>
+          <div id="council-inputs"><!-- Populated by JS --></div>
+          <button class="btn-primary mt-20" id="calc-council">Optimize Council</button>
+        </div>
+        <div class="card">
+          <h3>Council Recommendations</h3>
+          <div id="council-output"><p class="hint-text">Enter courtier stats and click Optimize.</p></div>
+        </div>
+      </div>
+      <div class="card mt-20">
+        <h3>Council Role Guide</h3>
+        <div id="council-role-guide"><!-- Populated by JS --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: MARRIAGE PLANNER
+    ============================================================ -->
+    <section id="tab-marriage" class="tab-panel">
+      <div class="panel-header">
+        <h2>Marriage Planner</h2>
+        <p>Plan marriages for maximum strategic benefit.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>Plan a Marriage</h3>
+          <div class="stat-grid">
+            <label>Your House</label>
+            <select id="marriage-house1">
+              <option value="">— Select House —</option>
+            </select>
+            <label>Target House</label>
+            <select id="marriage-house2">
+              <option value="">— Select House —</option>
+            </select>
+          </div>
+          <h3 class="mt-20">Marriage Type</h3>
+          <div id="marriage-type-options"><!-- Populated by JS --></div>
+          <button class="btn-primary mt-20" id="calc-marriage">Analyze Marriage</button>
+        </div>
+        <div class="card">
+          <h3>Marriage Analysis</h3>
+          <div id="marriage-output"><p class="hint-text">Select two houses and click Analyze.</p></div>
+        </div>
+      </div>
+      <div class="card mt-20">
+        <h3>General Marriage Tips</h3>
+        <div class="tip-list">
+          <div class="tip-item"><span class="tip-icon">💍</span><span>Always marry your primary heir to the most strategically valuable available match.</span></div>
+          <div class="tip-item"><span class="tip-icon">💍</span><span>Matrilineal marriages preserve your dynasty name when marrying off a female heir.</span></div>
+          <div class="tip-item"><span class="tip-icon">💍</span><span>Alliance through marriage is the only way to guarantee mutual defense pacts.</span></div>
+          <div class="tip-item"><span class="tip-icon">💍</span><span>Marry your spare children to vassals' children to strengthen loyalty bonds.</span></div>
+          <div class="tip-item"><span class="tip-icon">💍</span><span>In AGOT, Targaryen cousin marriages prevent dragon bloodline dilution.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: BUDGET CALCULATOR
+    ============================================================ -->
+    <section id="tab-budget" class="tab-panel">
+      <div class="panel-header">
+        <h2>Realm Budget Calculator</h2>
+        <p>Estimate your income and expenses to plan your economy.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>Holdings & Income</h3>
+          <div class="stat-grid">
+            <label>Castles (owned)</label>
+            <input type="number" id="budget-castles" min="0" value="3" />
+            <label>Cities (owned)</label>
+            <input type="number" id="budget-cities" min="0" value="2" />
+            <label>Temples (owned)</label>
+            <input type="number" id="budget-temples" min="0" value="1" />
+            <label>Stewardship</label>
+            <input type="number" id="budget-stewardship" min="1" max="100" value="12" />
+          </div>
+          <h3 class="mt-20">Key Buildings Built</h3>
+          <div class="checkbox-group">
+            <label><input type="checkbox" id="budget-market" checked /> Market Districts (cities)</label>
+            <label><input type="checkbox" id="budget-barracks" /> Barracks (castles)</label>
+            <label><input type="checkbox" id="budget-granary" /> Granaries</label>
+            <label><input type="checkbox" id="budget-shipyard" /> Shipyards (coastal)</label>
+          </div>
+          <h3 class="mt-20">Expenses</h3>
+          <div class="stat-grid">
+            <label>MaA Regiments</label>
+            <input type="number" id="budget-maa-count" min="0" value="5" />
+            <label>Mercenaries Hired</label>
+            <input type="number" id="budget-merc-count" min="0" value="0" />
+          </div>
+          <button class="btn-primary mt-20" id="calc-budget">Calculate Budget</button>
+        </div>
+        <div class="card">
+          <h3>Budget Breakdown</h3>
+          <div id="budget-output"><p class="hint-text">Enter your holdings and click Calculate.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: STRESS MANAGER
+    ============================================================ -->
+    <section id="tab-stress" class="tab-panel">
+      <div class="panel-header">
+        <h2>Stress Manager</h2>
+        <p>Track your ruler's stress and get relief recommendations before a mental break.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>Current Stress Level</h3>
+          <div style="margin: 20px 0;">
+            <input type="range" id="stress-slider" min="0" max="500" value="100" style="width:100%;accent-color:var(--gold);" />
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+              <span>0 (Composed)</span><span>100</span><span>200</span><span>300</span><span>400</span><span>500</span>
+            </div>
+            <div id="stress-value" style="text-align:center;font-size:1.4rem;font-weight:700;margin-top:10px;color:var(--gold);">100</div>
+          </div>
+          <h3 class="mt-20">Stress Causes Active</h3>
+          <div class="checkbox-group" id="stress-causes"><!-- Populated by JS --></div>
+          <button class="btn-primary mt-20" id="calc-stress">Get Stress Advice</button>
+        </div>
+        <div class="card">
+          <h3>Stress Assessment</h3>
+          <div id="stress-output"><p class="hint-text">Set your stress level and click Get Advice.</p></div>
+          <h3 class="mt-20">Relief Options</h3>
+          <div id="stress-relief-table"><!-- Populated by JS --></div>
+        </div>
+      </div>
+      <div class="card mt-20">
+        <h3>Mental Break Outcomes (What to Avoid)</h3>
+        <div id="mental-break-grid"><!-- Populated by JS --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: LONG NIGHT
+    ============================================================ -->
+    <section id="tab-longnight" class="tab-panel">
+      <div class="panel-header">
+        <h2>Long Night Preparedness</h2>
+        <p>The Night King is coming. Are you ready? Track your readiness across all critical factors.</p>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <h3>Overall Readiness Score</h3>
+        <div id="longnight-score-bar" style="margin:10px 0;">
+          <div class="progress-bar-container">
+            <div class="progress-bar low" id="longnight-progress" style="width:0%">0 / 50</div>
+          </div>
+          <div id="longnight-score-label" style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-top:6px;">Fill in your checklist below</div>
+        </div>
+      </div>
+      <div id="longnight-checklist"><!-- Populated by JS --></div>
+    </section>
+
+    <!-- ============================================================
+         TAB: VALYRIAN STEEL
+    ============================================================ -->
+    <section id="tab-valyrian" class="tab-panel">
+      <div class="panel-header">
+        <h2>Valyrian Steel Tracker</h2>
+        <p>Every Valyrian Steel sword in Westeros — where it is, who has it, and how to get it.</p>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
+          <div style="background:rgba(45,122,61,0.15);border:1px solid var(--success);border-radius:6px;padding:10px 16px;font-size:0.85rem;">
+            <strong class="text-green">Active Swords</strong> — In play, findable
+          </div>
+          <div style="background:rgba(122,90,26,0.15);border:1px solid var(--warning);border-radius:6px;padding:10px 16px;font-size:0.85rem;">
+            <strong class="text-gold">Reforged</strong> — Split or changed
+          </div>
+          <div style="background:rgba(122,26,26,0.15);border:1px solid var(--danger);border-radius:6px;padding:10px 16px;font-size:0.85rem;">
+            <strong class="text-red">Lost</strong> — Require event chains to recover
+          </div>
+        </div>
+      </div>
+      <div class="building-grid" id="valyrian-grid"><!-- Populated by JS --></div>
+    </section>
+
+    <!-- ============================================================
+         TAB: DRAGONS
+    ============================================================ -->
+    <section id="tab-dragons" class="tab-panel">
+      <div class="panel-header">
+        <h2>Dragon Bonding Guide</h2>
+        <p>Step-by-step guide to hatching, bonding, and riding dragons as House Targaryen.</p>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <h3>Requirements to Bond a Dragon</h3>
+        <div id="dragon-requirements"><!-- Populated by JS --></div>
+      </div>
+      <div id="dragon-stages"><!-- Populated by JS --></div>
+      <div class="card mt-20">
+        <h3>Known Dragons of Westeros</h3>
+        <div id="dragon-known"><!-- Populated by JS --></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: MAP
+    ============================================================ -->
+    <section id="tab-map" class="tab-panel">
+      <div class="panel-header">
+        <h2>Westeros & Essos Map</h2>
+        <p>Click a region for details on economy, military strength, and strategic notes.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>Map of the Known World</h3>
+          <div id="westeros-map"><!-- Populated by JS --></div>
+        </div>
+        <div class="card">
+          <h3>Region Details</h3>
+          <div id="map-detail"><p class="hint-text">Click a region on the map to see details.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TAB: EVENTS
+    ============================================================ -->
+    <section id="tab-events" class="tab-panel">
+      <div class="panel-header">
+        <h2>Event Decision Guide</h2>
+        <p>Common in-game events and the optimal choices for each situation.</p>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="filter-row">
+          <label>Filter by Category:</label>
+          <select id="event-filter">
+            <option value="all">All Events</option>
+            <option value="Court Events">Court Events</option>
+            <option value="War Events">War Events</option>
+            <option value="Intrigue Events">Intrigue Events</option>
+            <option value="Dynasty Events">Dynasty Events</option>
+            <option value="AGOT Events">AGOT Events</option>
+            <option value="Health Events">Health Events</option>
+            <option value="Succession Events">Succession Events</option>
+          </select>
+          <button class="btn-secondary" id="filter-events" style="margin-left:10px;">Filter</button>
+        </div>
+      </div>
+      <div id="events-grid"><!-- Populated by JS --></div>
+    </section>
+
+    <!-- ============================================================
+         TAB: CULTURE & RELIGION
+    ============================================================ -->
+    <section id="tab-culture" class="tab-panel">
+      <div class="panel-header">
+        <h2>Culture & Religion Advisor</h2>
+        <p>Know when converting culture or religion is worth the upheaval — and what you gain.</p>
+      </div>
+      <div id="culture-grid"><!-- Populated by JS --></div>
+    </section>
+
+    <!-- ============================================================
+         TAB: COMPARE
+    ============================================================ -->
+    <section id="tab-compare" class="tab-panel">
+      <div class="panel-header">
+        <h2>Comparison Tool</h2>
+        <p>Side-by-side comparison of houses, units, or succession laws.</p>
+      </div>
+      <div class="card" style="margin-bottom:20px;">
+        <div class="filter-row">
+          <label>Compare Type:</label>
+          <select id="compare-type">
+            <option value="houses">Great Houses</option>
+            <option value="units">Men-at-Arms Units</option>
+            <option value="succession">Succession Laws</option>
+            <option value="cultures">Cultures</option>
+          </select>
+        </div>
+        <div class="filter-row mt-10">
+          <label>Item A:</label>
+          <select id="compare-a" style="margin-left:8px;"></select>
+          <label style="margin-left:20px;">Item B:</label>
+          <select id="compare-b" style="margin-left:8px;"></select>
+          <button class="btn-primary" id="do-compare" style="margin-left:20px;width:auto;padding:8px 20px;">Compare</button>
+        </div>
+      </div>
+      <div id="compare-output"><!-- Populated by JS --></div>
+    </section>
+
+    <!-- ============================================================
+         TAB: NOTES
+    ============================================================ -->
+    <section id="tab-notes" class="tab-panel">
+      <div class="panel-header">
+        <h2>Playthrough Notes</h2>
+        <p>Save notes about your current game. Persists in your browser automatically.</p>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <h3>My Game Notes</h3>
+          <textarea id="notes-area" placeholder="Track your current playthrough here...&#10;&#10;Example:&#10;- Playing as House Stark, year 298&#10;- Allied with Tully and Arryn&#10;- Scheming against Tywin Lannister&#10;- Need more dragonglass before Long Night&#10;- Heir (Robb) has Martial 14 — assign to Marshal&#10;- Gold reserves: 340 — build Market District next" style="width:100%;height:300px;background:var(--bg-dark);border:1px solid var(--border);border-radius:6px;color:var(--text-primary);padding:12px;font-family:inherit;font-size:0.875rem;resize:vertical;line-height:1.6;"></textarea>
+          <div style="display:flex;gap:10px;margin-top:12px;">
+            <button class="btn-primary" id="save-notes" style="flex:1;">Save Notes</button>
+            <button class="btn-secondary" id="clear-notes" style="flex:1;">Clear All</button>
+          </div>
+          <div id="notes-status" style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:8px;"></div>
+        </div>
+        <div class="card">
+          <h3>Quick Reference Checklist</h3>
+          <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:14px;">Track your early-game priorities. Saves automatically.</p>
+          <div id="checklist-area"><!-- Populated by JS --></div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -478,7 +819,9 @@
   </footer>
 
   <script src="js/data.js"></script>
+  <script src="js/data-extra.js"></script>
   <script src="js/calculators.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/features.js"></script>
 </body>
 </html>
