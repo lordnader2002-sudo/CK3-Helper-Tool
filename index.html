@@ -11,10 +11,17 @@
   <!-- ===== HEADER ===== -->
   <header class="main-header">
     <div class="header-content">
-      <div class="header-icon">&#9876;</div>
-      <div>
-        <h1>CK3 AGOT Helper Tool</h1>
-        <p class="header-sub">Crusader Kings 3 &mdash; A Game of Thrones Mod Advisor</p>
+      <div class="header-icon" id="header-icon">🐉</div>
+      <div style="flex:1;">
+        <h1 id="header-title">CK3 AGOT Helper Tool</h1>
+        <p class="header-sub" id="header-sub">Crusader Kings 3 &mdash; A Game of Thrones Mod Advisor</p>
+      </div>
+      <div class="mode-toggle-group">
+        <div class="mode-toggle-label">Game Mode</div>
+        <div class="mode-toggle-buttons">
+          <button class="mode-btn active" id="mode-btn-agot" onclick="switchMode('agot')">🐉 AGOT Mod</button>
+          <button class="mode-btn" id="mode-btn-vanilla" onclick="switchMode('vanilla')">🏰 Vanilla CK3</button>
+        </div>
       </div>
     </div>
   </header>
@@ -35,10 +42,10 @@
     <button class="tab-btn" data-tab="marriage">💍 Marriage</button>
     <button class="tab-btn" data-tab="budget">💰 Budget</button>
     <button class="tab-btn" data-tab="stress">🧠 Stress</button>
-    <div class="tab-group-label">AGOT</div>
-    <button class="tab-btn" data-tab="longnight">❄️ Long Night</button>
-    <button class="tab-btn" data-tab="valyrian">🗡️ Valyrian Steel</button>
-    <button class="tab-btn" data-tab="dragons">🐉 Dragons</button>
+    <div class="tab-group-label" id="nav-mode-label">AGOT</div>
+    <button class="tab-btn mode-specific" data-tab="longnight" id="nav-tab-longnight">❄️ Long Night</button>
+    <button class="tab-btn mode-specific" data-tab="valyrian" id="nav-tab-valyrian">🗡️ Valyrian Steel</button>
+    <button class="tab-btn mode-specific" data-tab="dragons" id="nav-tab-dragons">🐉 Dragons</button>
     <div class="tab-group-label">Reference</div>
     <button class="tab-btn" data-tab="map">🗺️ Map</button>
     <button class="tab-btn" data-tab="events">📖 Events</button>
@@ -815,13 +822,15 @@
 
   <!-- ===== FOOTER ===== -->
   <footer class="main-footer">
-    <p>CK3 AGOT Helper Tool &mdash; Crusader Kings 3 | A Game of Thrones Mod &mdash; For the Iron Throne</p>
+    <p id="footer-text">CK3 AGOT Helper Tool &mdash; Crusader Kings 3 | A Game of Thrones Mod &mdash; For the Iron Throne</p>
   </footer>
 
   <script src="js/data.js"></script>
   <script src="js/data-extra.js"></script>
+  <script src="js/data-vanilla.js"></script>
   <script src="js/calculators.js"></script>
   <script src="js/app.js"></script>
   <script src="js/features.js"></script>
+  <script src="js/mode-switch.js"></script>
 </body>
 </html>
