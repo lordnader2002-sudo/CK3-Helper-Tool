@@ -134,11 +134,13 @@ function initMarriage() {
       return;
     }
 
-    const house1 = AGOT_DATA.houses.find(h => h.id === h1);
-    const house2 = AGOT_DATA.houses.find(h => h.id === h2);
+    const currentData = window.activeData ? window.activeData() : AGOT_DATA;
+    const currentExtra = window.activeExtra ? window.activeExtra() : AGOT_EXTRA;
+    const house1 = currentData.houses.find(h => h.id === h1);
+    const house2 = currentData.houses.find(h => h.id === h2);
     const type = AGOT_EXTRA.marriageTypes[selectedType];
     const benefitKey = [h1, h2].sort().join('_');
-    const knownBenefit = AGOT_EXTRA.marriageBenefits[benefitKey];
+    const knownBenefit = (currentExtra.marriageBenefits || {})[benefitKey];
 
     const combinedEcon = house1.economy + house2.economy;
     const combinedMil = house1.military + house2.military;
@@ -625,10 +627,12 @@ function populateCompareSelects(type) {
   if (!selA || !selB) return;
 
   let options = [];
-  if (type === 'houses') options = AGOT_DATA.houses.map(h => ({ value: h.id, label: h.name }));
-  else if (type === 'units') options = AGOT_DATA.menAtArms.map((m, i) => ({ value: i, label: m.name }));
-  else if (type === 'succession') options = AGOT_DATA.successionLaws.map((s, i) => ({ value: i, label: s.name }));
-  else if (type === 'cultures') options = AGOT_EXTRA.cultures.map((c, i) => ({ value: i, label: c.name }));
+  const _d = window.activeData ? window.activeData() : AGOT_DATA;
+  const _e = window.activeExtra ? window.activeExtra() : AGOT_EXTRA;
+  if (type === 'houses') options = _d.houses.map(h => ({ value: h.id, label: h.name }));
+  else if (type === 'units') options = _d.menAtArms.map((m, i) => ({ value: i, label: m.name }));
+  else if (type === 'succession') options = _d.successionLaws.map((s, i) => ({ value: i, label: s.name }));
+  else if (type === 'cultures') options = (_e.cultures || []).map((c, i) => ({ value: i, label: c.name }));
 
   const html = options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
   selA.innerHTML = html;
@@ -642,9 +646,11 @@ function renderComparison(type, aVal, bVal) {
 
   let itemA, itemB, rows;
 
+  const _cmpData = window.activeData ? window.activeData() : AGOT_DATA;
+  const _cmpExtra = window.activeExtra ? window.activeExtra() : AGOT_EXTRA;
   if (type === 'houses') {
-    itemA = AGOT_DATA.houses.find(h => h.id === aVal);
-    itemB = AGOT_DATA.houses.find(h => h.id === bVal);
+    itemA = _cmpData.houses.find(h => h.id === aVal);
+    itemB = _cmpData.houses.find(h => h.id === bVal);
     rows = [
       { label: 'Region', a: itemA.region, b: itemB.region },
       { label: 'Starting Ruler', a: itemA.startingRuler, b: itemB.startingRuler },
@@ -655,8 +661,8 @@ function renderComparison(type, aVal, bVal) {
       { label: 'Key Vassals', a: itemA.keyVassals.length, b: itemB.keyVassals.length, numeric: true }
     ];
   } else if (type === 'units') {
-    itemA = AGOT_DATA.menAtArms[aVal];
-    itemB = AGOT_DATA.menAtArms[bVal];
+    itemA = _cmpData.menAtArms[aVal];
+    itemB = _cmpData.menAtArms[bVal];
     rows = [
       { label: 'Damage', a: itemA.stats.damage, b: itemB.stats.damage, numeric: true },
       { label: 'Toughness', a: itemA.stats.toughness, b: itemB.stats.toughness, numeric: true },
@@ -665,8 +671,8 @@ function renderComparison(type, aVal, bVal) {
       { label: 'Countered By', a: itemA.counteredBy.join(', '), b: itemB.counteredBy.join(', ') }
     ];
   } else if (type === 'succession') {
-    itemA = AGOT_DATA.successionLaws[aVal];
-    itemB = AGOT_DATA.successionLaws[bVal];
+    itemA = _cmpData.successionLaws[aVal];
+    itemB = _cmpData.successionLaws[bVal];
     rows = [
       { label: 'Description', a: itemA.description, b: itemB.description },
       { label: 'Recommended', a: itemA.recommended ? '✓ Yes' : 'No', b: itemB.recommended ? '✓ Yes' : 'No' },
@@ -674,8 +680,8 @@ function renderComparison(type, aVal, bVal) {
       { label: 'Cons', a: itemA.cons.join('; '), b: itemB.cons.join('; ') }
     ];
   } else if (type === 'cultures') {
-    itemA = AGOT_EXTRA.cultures[aVal];
-    itemB = AGOT_EXTRA.cultures[bVal];
+    itemA = (_cmpExtra.cultures || [])[aVal];
+    itemB = (_cmpExtra.cultures || [])[bVal];
     rows = [
       { label: 'Region', a: itemA.region, b: itemB.region },
       { label: 'Difficulty', a: itemA.difficulty, b: itemB.difficulty },

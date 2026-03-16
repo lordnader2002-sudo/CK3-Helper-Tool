@@ -96,6 +96,7 @@ function makeStatBars(val) {
   }
   return bars;
 }
+window.makeStatBars = makeStatBars;
 
 function renderHouseDetail(h) {
   const content = document.getElementById('house-detail-content');
